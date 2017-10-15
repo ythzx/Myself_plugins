@@ -138,40 +138,61 @@ from rest_framework import status
 基本混合型
 """
 
-from rest_framework import mixins
+# from rest_framework import mixins
+# from rest_framework import generics
+#
+
+# class Publisher_list(mixins.ListModelMixin,
+#                      mixins.CreateModelMixin,
+#                      generics.GenericAPIView):
+#     """
+#     ListModelMixin 列出查询的内容
+#     CreateModelMixin 创建新的信息
+#     generics.GenericAPIView 包含的是通用的
+#     """
+#     queryset = models.Publisher.objects.all()
+#     serializer_class = serializers.PublisherSerializers # serializer_class 不能修改
+#
+#     def get(self, request, *args, **kwargs):
+#         return self.list(request, *args, **kwargs)  # self.list 调用ListModelMixin中的方法
+#
+#     def post(self, request, *args, **kwargs):
+#         return self.create(request, *args, **kwargs)  # # self.create 调用ListModelMixin中的方法
+#
+#
+# class PublisherDetail(mixins.RetrieveModelMixin,
+#                       mixins.UpdateModelMixin,
+#                       mixins.DestroyModelMixin,
+#                       generics.GenericAPIView):
+#     queryset = models.Publisher.objects.all()
+#     serializer_class = serializers.PublisherSerializers
+#
+#     def get(self, request, *args, **kwargs):
+#         return self.retrieve(request, *args, **kwargs)
+#
+#     def put(self, request, *args, **kwargs):
+#         return self.update(request, *args, **kwargs)
+#
+#     def delete(self, request, *args, **kwargs):
+#         return self.destroy(request, *args, **kwargs)
+
+"""
+封装的混合mins使用
+"""
 from rest_framework import generics
 
 
-class Publisher_list(mixins.ListModelMixin,
-                     mixins.CreateModelMixin,
-                     generics.GenericAPIView):
+class Publisher_list(generics.ListCreateAPIView):
     """
-    ListModelMixin 列出查询的内容
-    CreateModelMixin 创建新的信息
-    generics.GenericAPIView 包含的是通用的
+    ListCreateAPIView 中就是继承ListCreateAPIView中的
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    GenericAPIView
     """
-    queryset = models.Publisher.objects.all()
-    serializer_class = serializers.PublisherSerializers # serializer_class 不能修改
-
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)  # self.list 调用ListModelMixin中的方法
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)  # # self.create 调用ListModelMixin中的方法
-
-
-class PublisherDetail(mixins.RetrieveModelMixin,
-                      mixins.UpdateModelMixin,
-                      mixins.DestroyModelMixin,
-                      generics.GenericAPIView):
     queryset = models.Publisher.objects.all()
     serializer_class = serializers.PublisherSerializers
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+class PublisherDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Publisher.objects.all()
+    serializer_class = serializers.PublisherSerializers
