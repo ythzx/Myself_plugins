@@ -72,64 +72,106 @@ from rest_framework import status
 """
 基于类的视图
 """
+#
+# from rest_framework.views import APIView
+# from django.http import Http404
+#
+#
+# class Publisher_list(APIView):
+#     """
+#     列出所有的snippets或者创建一个新的snippet。
+#     """
+#
+#     def get(self, request, format=None):
+#         """
+#         Get 请求
+#         """
+#         query = models.Publisher.objects.all() # 获取所有的数据
+#         serializer = serializers.PublisherSerializers(query, many=True) # 将数据序列化
+#         return Response(serializer.data) # 通过Response将数据返回
+#
+#     def post(self, request, format=None):
+#         """
+#         POST 请求
+#         """
+#         serializer = serializers.PublisherSerializers(data=request.data) # 增加数据
+#         if serializer.is_valid():
+#             serializer.save() # 验证通过后保存
+#             return Response(serializer.data, status=status.HTTP_201_CREATED) # 成功后返回HTTP_201_CREATED
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) # 失败后返回400
+#
+#
+# class PublisherDetail(APIView):
+#     """
+#     检索，更新或删除一个示例。
+#     """
+#
+#     def get_object(self, pk):
+#         """
+#         先判断是否有这个对象，有就直接返回
+#         没有就抛出异常 Http404
+#         """
+#         try:
+#             return models.Publisher.objects.get(pk=pk)
+#         except models.Publisher.DoesNotExist:
+#             raise Http404
+#
+#     def get(self, request, pk, format=None):
+#         publisher = self.get_object(pk) # 要获取的对象
+#         serializer = serializers.PublisherSerializers(publisher) # 将获取对象的数据序列化
+#         return Response(serializer.data)
+#
+#     def put(self, request, pk, format=None):
+#         publisher = self.get_object(pk) # 要获取的对象
+#         serializer = serializers.PublisherSerializers(publisher, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+#     def delete(self, request, pk, format=None):
+#         publisher = self.get_object(pk) # 要获取的对象
+#         publisher.delete() # 通过对象删除数据
+#         return Response(status=status.HTTP_204_NO_CONTENT)
 
-from rest_framework.views import APIView
-from django.http import Http404
+"""
+基本混合型
+"""
+
+from rest_framework import mixins
+from rest_framework import generics
 
 
-class Publisher_list(APIView):
+class Publisher_list(mixins.ListModelMixin,
+                     mixins.CreateModelMixin,
+                     generics.GenericAPIView):
     """
-    列出所有的snippets或者创建一个新的snippet。
+    ListModelMixin 列出查询的内容
+    CreateModelMixin 创建新的信息
+    generics.GenericAPIView 包含的是通用的
     """
+    queryset = models.Publisher.objects.all()
+    serializer_class = serializers.PublisherSerializers # serializer_class 不能修改
 
-    def get(self, request, format=None):
-        """
-        Get 请求
-        """
-        query = models.Publisher.objects.all() # 获取所有的数据
-        serializer = serializers.PublisherSerializers(query, many=True) # 将数据序列化
-        return Response(serializer.data) # 通过Response将数据返回
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)  # self.list 调用ListModelMixin中的方法
 
-    def post(self, request, format=None):
-        """
-        POST 请求
-        """
-        serializer = serializers.PublisherSerializers(data=request.data) # 增加数据
-        if serializer.is_valid():
-            serializer.save() # 验证通过后保存
-            return Response(serializer.data, status=status.HTTP_201_CREATED) # 成功后返回HTTP_201_CREATED
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) # 失败后返回400
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)  # # self.create 调用ListModelMixin中的方法
 
 
-class PublisherDetail(APIView):
-    """
-    检索，更新或删除一个示例。
-    """
+class PublisherDetail(mixins.RetrieveModelMixin,
+                      mixins.UpdateModelMixin,
+                      mixins.DestroyModelMixin,
+                      generics.GenericAPIView):
+    queryset = models.Publisher.objects.all()
+    serializer_class = serializers.PublisherSerializers
 
-    def get_object(self, pk):
-        """
-        先判断是否有这个对象，有就直接返回
-        没有就抛出异常 Http404
-        """
-        try:
-            return models.Publisher.objects.get(pk=pk)
-        except models.Publisher.DoesNotExist:
-            raise Http404
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
-    def get(self, request, pk, format=None):
-        publisher = self.get_object(pk) # 要获取的对象
-        serializer = serializers.PublisherSerializers(publisher) # 将获取对象的数据序列化
-        return Response(serializer.data)
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
-    def put(self, request, pk, format=None):
-        publisher = self.get_object(pk) # 要获取的对象
-        serializer = serializers.PublisherSerializers(publisher, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        publisher = self.get_object(pk) # 要获取的对象
-        publisher.delete() # 通过对象删除数据
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
