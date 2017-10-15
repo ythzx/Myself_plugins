@@ -1,4 +1,6 @@
 
+中文文档：https://q1mi.github.io/Django-REST-framework-documentation/
+
 ## 序列化
 
 在app BookManager中创建serializers用于序列化，类似ModleForm的操作
@@ -57,3 +59,8 @@ X-Frame-Options: SAMEORIGIN
 在哪url中配置之后，能够登录和注销,必选按照下面的方式写，`api-auth/`后面不要加`$`
 
 `url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),`
+
+## 基于类的视图
+
+
+

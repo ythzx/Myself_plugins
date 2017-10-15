@@ -17,10 +17,21 @@ from django.conf.urls import url,include
 from django.contrib import admin
 from BookManager import views
 
+
+# 基于函数的视图url
+# urlpatterns = [
+#
+#     url(r'^publishers/$', views.publisher_list),
+#     url(r'^publishers/(?P<pk>[0-9]+)/$', views.publish_detail),
+#     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+#     url(r'^admin/', admin.site.urls),
+# ]
+
+# 基于类的视图的url 调用了as_view方法
 urlpatterns = [
 
-    url(r'^publishers/$', views.publisher_list),
-    url(r'^publishers/(?P<pk>[0-9]+)/$', views.publish_detail),
+    url(r'^publishers/$', views.Publisher_list.as_view()),
+    url(r'^publishers/(?P<pk>[0-9]+)/$', views.PublisherDetail.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', admin.site.urls),
 ]
