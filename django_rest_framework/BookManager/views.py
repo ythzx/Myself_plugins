@@ -206,6 +206,7 @@ class PublisherDetail(generics.RetrieveUpdateDestroyAPIView):
 增加获取书籍的类和某一本书的细节类
 """
 
+
 # class BookList(generics.ListCreateAPIView):
 #     """
 #     获取全部的书籍信息
@@ -222,6 +223,7 @@ class PublisherDetail(generics.RetrieveUpdateDestroyAPIView):
 #     queryset = models.Book.objects.all()
 #     serializer_class = serializers.BooksSerializers  # 对书籍信息进行序列化
 #     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)  # 用户验证和修改
+#
 
 # 使用视图集合，减少代码重复
 from rest_framework import viewsets
@@ -233,13 +235,18 @@ class BookViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
+class PbulishViewSet(viewsets.ModelViewSet):
+    queryset = models.Publisher.objects.all()
+    serializer_class = serializers.PublisherSerializers
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
 from rest_framework.reverse import reverse
 
 
 # 设置根路径函数，通过url中的name反向获得
-@api_view(['GET'])
-def api_root(request, format=None):
-    return Response({
-        'publishers': reverse('publisher-list', request=request, format=format),
-        'books': reverse('book-list', request=request, format=format)
-    })
+# @api_view(['GET'])
+# def api_root(request, format=None):
+#     return Response({
+#         'publishers': reverse('publisher-list', request=request, format=format),
+#         'books': reverse('book-list', request=request, format=format)
+#     })

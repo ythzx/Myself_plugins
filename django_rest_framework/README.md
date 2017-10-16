@@ -205,5 +205,29 @@ book_detail = views.BookViewSet.as_view({
     'delete': 'destroy'
 })
 ```
+## 使用路由器
 
 
+```cython
+# 创建路由器并注册我们的视图。
+router = DefaultRouter()
+router.register(r'books', views.BookViewSet)
+router.register(r'publishers', views.PbulishViewSet)
+
+urlpatterns = [
+
+    # url(r'^$', views.api_root),
+    url(r'^', include(router.urls)),
+    # url(r'^publishers/$', views.Publisher_list.as_view(), name='publisher-list'),
+    # url(r'^publishers/(?P<pk>[0-9]+)/$', views.PublisherDetail.as_view(), name='publisher-detail'),
+    # url(r'^books/$', views.BookList.as_view(),name='book-list'),
+    # url(r'^books/(?P<pk>[0-9]+)/$', views.BookDetail.as_view(),name='book-detail'),
+
+    # 使用视图集合
+    # url(r'^books/$', book_list, name='book-list'),
+    # url(r'^books/(?P<pk>[0-9]+)/$', book_detail, name='book-detail'),
+
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+]
+
+```
