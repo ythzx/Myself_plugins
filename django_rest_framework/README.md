@@ -132,6 +132,10 @@ class BookDetail(generics.RetrieveUpdateDestroyAPIView):
 ## 超链接API
 
 
+1、在Books的序列化中增加超链接API--HyperlinkedModelSerializer
+2、在url中增加name属性，用于反向查找，否则超链接API会报错
+
+
 ### HyperlinkedModelSerializer
 
 ```cython
