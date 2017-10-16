@@ -52,12 +52,14 @@ class PublisherSerializers(serializers.ModelSerializer):
         )
 
 
-class BooksSerializers(serializers.ModelSerializer):
+class BooksSerializers(serializers.HyperlinkedModelSerializer):
     """
     书籍的序列化
     其中publisher字段是
+    HyperlinkedModelSerializer 是超链接API，同时要在URL中配置name反向查询的名字
     """
-    publisher = serializers.StringRelatedField(source='publisher.name') # 将publisher显示成字符串
+    # 使用超链接API将这个注释
+    # publisher = serializers.StringRelatedField(source='publisher.name') # 将publisher显示成字符串
 
     class Meta:
         model = models.Book

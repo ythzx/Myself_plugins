@@ -129,3 +129,29 @@ class BookDetail(generics.RetrieveUpdateDestroyAPIView):
     url(r'^books/(?P<pk>[0-9]+)/$', views.BookDetail.as_view()),
 ```
 
+## 超链接API
+
+
+### HyperlinkedModelSerializer
+
+```cython
+class BooksSerializers(serializers.HyperlinkedModelSerializer):
+    """
+    书籍的序列化
+    其中publisher字段是
+    HyperlinkedModelSerializer 是超链接API，同时要在URL中配置name反向查询的名字
+    """
+    # 使用超链接API将这个注释
+    # publisher = serializers.StringRelatedField(source='publisher.name') # 将publisher显示成字符串 
+```
+
+### URL 
+
+```cython
+    url(r'^publishers/$', views.Publisher_list.as_view(),name='publisher-list'),
+    url(r'^publishers/(?P<pk>[0-9]+)/$', views.PublisherDetail.as_view(),name='publisher-detail'),
+    url(r'^books/$', views.BookList.as_view(),name='book-list'),
+    url(r'^books/(?P<pk>[0-9]+)/$', views.BookDetail.as_view(),name='book-detail'),
+```
+
+
