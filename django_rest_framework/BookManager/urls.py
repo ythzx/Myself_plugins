@@ -1,6 +1,7 @@
 from django.conf.urls import url, include
 from BookManager import views
 from rest_framework.routers import DefaultRouter
+from rest_framework.schemas import get_schema_view
 
 # 指定book_list book_detail 的各种方法，都是绑定到BookViewSet
 # book_list = views.BookViewSet.as_view({
@@ -20,11 +21,13 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r'books', views.BookViewSet)
 router.register(r'publishers', views.PbulishViewSet)
+schema_view = get_schema_view(title='Pastebin API')
 
 urlpatterns = [
 
     # url(r'^$', views.api_root),
     url(r'^', include(router.urls)),
+    url('^schema/$', schema_view),
     # url(r'^publishers/$', views.Publisher_list.as_view(), name='publisher-list'),
     # url(r'^publishers/(?P<pk>[0-9]+)/$', views.PublisherDetail.as_view(), name='publisher-detail'),
     # url(r'^books/$', views.BookList.as_view(),name='book-list'),

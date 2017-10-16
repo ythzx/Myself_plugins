@@ -231,3 +231,8 @@ urlpatterns = [
 ]
 
 ```
+## 概要和客户端库
+
+安装`pip3 install  coreapi`
+
+Core API是用于描述API的文档规范
