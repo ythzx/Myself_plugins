@@ -161,5 +161,18 @@ class BooksSerializers(serializers.HyperlinkedModelSerializer):
 
 ### 根视图
 
+- 在视图中增加api_root 函数
+- 在url中增加路由分发
 
+## 分页
 
+在系统的settings中添加配置文件
+```cython
+# REST_FRAMEWORK 配置，PAGE_SIZE是分页的配置
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+    ],
+    'PAGE_SIZE': 10
+}
+```
