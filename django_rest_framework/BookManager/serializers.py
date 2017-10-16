@@ -40,10 +40,12 @@ class PublisherSerializers(serializers.ModelSerializer):
     类似ModelForm的方式，不用自己写每一个字段
     根据原来写的model配合字段自动生成
     """
+    operator = serializers.ReadOnlyField(source='operator.username')  # 重写operator的序列化方法，显示关联的用户名
     class Meta:
         model = models.Publisher # 声明自己的models
         fields = (
             'id',
             'name',
-            'address'
+            'address',
+            'operator'
         )

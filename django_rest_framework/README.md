@@ -60,7 +60,32 @@ X-Frame-Options: SAMEORIGIN
 
 `url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),`
 
-## 基于类的视图
+## 基于类的视图 混合使用mins
 
+```cython
+from rest_framework import generics
+
+
+class Publisher_list(generics.ListCreateAPIView):
+    """
+    ListCreateAPIView 中就是继承ListCreateAPIView中的
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    GenericAPIView
+    """
+    queryset = models.Publisher.objects.all()
+    serializer_class = serializers.PublisherSerializers
+
+
+class PublisherDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Publisher.objects.all()
+    serializer_class = serializers.PublisherSerializers
+```
+
+## 权限
+
+在表中新加一个字段的时候，原来表中有数据，在`makemigrations`的时候,选择添加默认值。然后执行`migrate`
+
+同时需要在序列化中添加相应的字段`operator`
 
 
