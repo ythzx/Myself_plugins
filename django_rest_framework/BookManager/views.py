@@ -180,6 +180,7 @@ from rest_framework import status
 封装的混合mins使用
 """
 from rest_framework import generics
+from rest_framework import permissions
 
 
 class Publisher_list(generics.ListCreateAPIView):
@@ -191,8 +192,10 @@ class Publisher_list(generics.ListCreateAPIView):
     """
     queryset = models.Publisher.objects.all()
     serializer_class = serializers.PublisherSerializers
+    permission_classes = (permissions.IsAuthenticated,) # 增加权限认证，未登录不会返回信息
 
 
 class PublisherDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Publisher.objects.all()
     serializer_class = serializers.PublisherSerializers
+    permission_classes = (permissions.IsAuthenticated,) # 增加权限认证，未登录不会返回信息
