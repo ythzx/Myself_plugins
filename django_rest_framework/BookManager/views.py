@@ -222,7 +222,16 @@ class BookDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = models.Book.objects.all()
     serializer_class = serializers.BooksSerializers  # 对书籍信息进行序列化
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,) # 用户验证和修改
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)  # 用户验证和修改
 
 
+from rest_framework.reverse import reverse
 
+
+# 设置根路径函数，通过url中的name反向获得
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'publishers': reverse('publisher-list', request=request, format=format),
+        'books': reverse('book-list', request=request, format=format)
+    })

@@ -28,12 +28,17 @@ from BookManager import views
 # ]
 
 # 基于类的视图的url 调用了as_view方法
-urlpatterns = [
+# urlpatterns = [
+#     url(r'^publishers/$', views.Publisher_list.as_view(),name='publisher-list'),
+#     url(r'^publishers/(?P<pk>[0-9]+)/$', views.PublisherDetail.as_view(),name='publisher-detail'),
+#     url(r'^books/$', views.BookList.as_view(),name='book-list'),
+#     url(r'^books/(?P<pk>[0-9]+)/$', views.BookDetail.as_view(),name='book-detail'),
+#     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+#     url(r'^admin/', admin.site.urls),
+# ]
 
-    url(r'^publishers/$', views.Publisher_list.as_view(),name='publisher-list'),
-    url(r'^publishers/(?P<pk>[0-9]+)/$', views.PublisherDetail.as_view(),name='publisher-detail'),
-    url(r'^books/$', views.BookList.as_view(),name='book-list'),
-    url(r'^books/(?P<pk>[0-9]+)/$', views.BookDetail.as_view(),name='book-detail'),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+# 基于路由分发的API根路由
+urlpatterns = [
+    url(r'^api/', include('BookManager.urls')),
     url(r'^admin/', admin.site.urls),
 ]
