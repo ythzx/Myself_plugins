@@ -41,11 +41,28 @@ class PublisherSerializers(serializers.ModelSerializer):
     根据原来写的model配合字段自动生成
     """
     operator = serializers.ReadOnlyField(source='operator.username')  # 重写operator的序列化方法，显示关联的用户名
+
     class Meta:
-        model = models.Publisher # 声明自己的models
+        model = models.Publisher  # 声明自己的models
         fields = (
             'id',
             'name',
             'address',
             'operator'
+        )
+
+
+class BooksSerializers(serializers.ModelSerializer):
+    """
+    书籍的序列化
+    其中publisher字段是
+    """
+    publisher = serializers.StringRelatedField(source='publisher.name') # 将publisher显示成字符串
+
+    class Meta:
+        model = models.Book
+        fields = (
+            'id',
+            'title',
+            'publisher',
         )

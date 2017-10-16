@@ -32,6 +32,8 @@ urlpatterns = [
 
     url(r'^publishers/$', views.Publisher_list.as_view()),
     url(r'^publishers/(?P<pk>[0-9]+)/$', views.PublisherDetail.as_view()),
+    url(r'^books/$', views.BookList.as_view()),
+    url(r'^books/(?P<pk>[0-9]+)/$', views.BookDetail.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', admin.site.urls),
 ]

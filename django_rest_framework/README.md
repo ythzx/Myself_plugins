@@ -99,3 +99,33 @@ class PublisherDetail(generics.RetrieveUpdateDestroyAPIView):
 
 当用abc登录的时候是不能修改的，创建者admin能够修改
 
+### 在视图中增加Books
+
+```cython
+class BookList(generics.ListCreateAPIView):
+    """
+    获取全部的书籍信息
+    """
+    queryset = models.Book.objects.all()
+    serializer_class = serializers.BooksSerializers
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+
+
+class BookDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    获取某一本书的细节
+    """
+    queryset = models.Book.objects.all()
+    serializer_class = serializers.BooksSerializers # 对书籍信息进行序列化
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)
+
+```
+
+### 配置urls
+
+配置书籍的urls
+```cython
+    url(r'^books/$', views.BookList.as_view()),
+    url(r'^books/(?P<pk>[0-9]+)/$', views.BookDetail.as_view()),
+```
+
