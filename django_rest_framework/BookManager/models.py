@@ -12,3 +12,15 @@ class Publisher(models.Model):
     class Meta:
         verbose_name = '出版社'
         verbose_name_plural = verbose_name  # 指定模型的复数形式
+
+
+class Book(models.Model):
+    title = models.CharField(max_length=32, verbose_name='书名')
+    publisher = models.ForeignKey('Publisher')  # 关联外键
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = '书'
+        verbose_name_plural = verbose_name  # 指定模型的复数形式
