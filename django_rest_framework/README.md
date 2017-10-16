@@ -88,4 +88,14 @@ class PublisherDetail(generics.RetrieveUpdateDestroyAPIView):
 
 同时需要在序列化中添加相应的字段`operator`
 
+在views中增加`permission_classes = (permissions.IsAuthenticated,) `,增加权限认证，未登录不会返回信息
+
+### 创建一个新的用户abc
+
+`createsuperuser` 
+
+用户名：abc   
+密码：admin123
+
+当用abc登录的时候是不能修改的，创建者admin能够修改
 

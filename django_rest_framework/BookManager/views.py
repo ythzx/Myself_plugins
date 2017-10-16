@@ -181,6 +181,7 @@ from rest_framework import status
 """
 from rest_framework import generics
 from rest_framework import permissions
+from BookManager.permissions import IsOwnerOrReadOnly
 
 
 class Publisher_list(generics.ListCreateAPIView):
@@ -192,10 +193,10 @@ class Publisher_list(generics.ListCreateAPIView):
     """
     queryset = models.Publisher.objects.all()
     serializer_class = serializers.PublisherSerializers
-    permission_classes = (permissions.IsAuthenticated,) # 增加权限认证，未登录不会返回信息
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)  # 增加权限认证，未登录不会返回信息
 
 
 class PublisherDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Publisher.objects.all()
     serializer_class = serializers.PublisherSerializers
-    permission_classes = (permissions.IsAuthenticated,) # 增加权限认证，未登录不会返回信息
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)  # 增加权限认证，未登录不会返回信息
