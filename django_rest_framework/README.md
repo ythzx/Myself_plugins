@@ -176,3 +176,34 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 ```
+
+## 视图集合
+
+```cython
+# 使用视图集合，减少代码重复
+from rest_framework import viewsets
+
+
+class BookViewSet(viewsets.ModelViewSet):
+    queryset = models.Book.objects.all()
+    serializer_class = serializers.BooksSerializers
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+```
+
+### url 中的修改
+
+```cython
+book_list = views.BookViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+book_detail = views.BookViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy'
+})
+```
+
+

@@ -206,23 +206,31 @@ class PublisherDetail(generics.RetrieveUpdateDestroyAPIView):
 增加获取书籍的类和某一本书的细节类
 """
 
+# class BookList(generics.ListCreateAPIView):
+#     """
+#     获取全部的书籍信息
+#     """
+#     queryset = models.Book.objects.all()
+#     serializer_class = serializers.BooksSerializers
+#     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)  # IsAuthenticatedOrReadOnly 用户验证并且是只有创建者能修改
+#
+#
+# class BookDetail(generics.RetrieveUpdateDestroyAPIView):
+#     """
+#     获取某一本书的细节
+#     """
+#     queryset = models.Book.objects.all()
+#     serializer_class = serializers.BooksSerializers  # 对书籍信息进行序列化
+#     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)  # 用户验证和修改
 
-class BookList(generics.ListCreateAPIView):
-    """
-    获取全部的书籍信息
-    """
+# 使用视图集合，减少代码重复
+from rest_framework import viewsets
+
+
+class BookViewSet(viewsets.ModelViewSet):
     queryset = models.Book.objects.all()
     serializer_class = serializers.BooksSerializers
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)  # IsAuthenticatedOrReadOnly 用户验证并且是只有创建者能修改
-
-
-class BookDetail(generics.RetrieveUpdateDestroyAPIView):
-    """
-    获取某一本书的细节
-    """
-    queryset = models.Book.objects.all()
-    serializer_class = serializers.BooksSerializers  # 对书籍信息进行序列化
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)  # 用户验证和修改
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 from rest_framework.reverse import reverse
